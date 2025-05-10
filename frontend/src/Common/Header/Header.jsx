@@ -2,11 +2,11 @@ import React from 'react'
 import Adv from './Adv'
 import Nav from './Nav'
 
-const Header = () => {
+const Header = ({onSearchButtonClick}) => {
   return (
     <>
     <Adv />
-    <Nav />
+    <Nav onSearchButtonClick={onSearchButtonClick}/>
     </>
   )
 }

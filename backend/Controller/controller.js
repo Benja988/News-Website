@@ -1,5 +1,39 @@
-const { User } = require("../Model/model");
+const { User, News } = require("../Model/model");
 const bcrypt = require("bcrypt");
+
+
+exports.mainSearch = async function (req, res) {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 5;
+    const searchText = req.query.searchText;
+
+    const query = {
+      $or: [
+        { title: { $regex: searchText, $options: "i" } }, // Case-insensitive search on title
+        { newsCategory: { $regex: searchText, $options: "i" } }, // Case-insensitive search on newsCategory
+        { subCategory: { $regex: searchText, $options: "i" } }, // Case-insensitive search on subCategory
+        // Add more fields as needed
+      ],
+    };
+
+    const options = {
+      page: page,
+      limit: pageSize,
+      sort: { createdAt: -1 }, // Adjust the sorting based on your requirements
+    };
+
+    const paginatedNews = await News.paginate(query, options);
+
+    res.json({
+      news: paginatedNews.docs,
+      totalPages: paginatedNews.totalPages,
+    });
+  } catch (error) {
+    console.error("Error fetching news data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 exports.isAuth = async (req, res) => {
   // console.log("Middleware is running");

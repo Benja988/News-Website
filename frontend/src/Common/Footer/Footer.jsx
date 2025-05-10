@@ -1,10 +1,17 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { categoriesRow1, categoriesRow2 } from "../../data/categories";
 
 function Footer({ SearchText }) {
+  const navigation = useNavigate();
+  const [searchText, setSearchText] = useState("");
   const handleInputChange = (e) => {
     console.log(e);
+    setSearchText(e.target.value);
+  };
+
+  const handleSearch = () => {
+    navigation(`/search/${searchText}`);
   };
   
   return (
@@ -17,7 +24,9 @@ function Footer({ SearchText }) {
           className="h-8 px-2 w-full bg-white border-none rounded-1 outline-none"
           onChange={handleInputChange}
         />
-        <button className="h-8 bg-white text-black px-2 rounded-r flex items-center font-bold">
+        <button
+          onClick={handleSearch}
+          className="h-8 bg-white text-black px-2 rounded-r flex items-center font-bold">
           Search <span className="ml-1 font-bold text-2xl pb-1">&#8594;</span>
         </button>
       </div>
@@ -32,7 +41,7 @@ function Footer({ SearchText }) {
                     key={i}
                     to={`/${category.title.toLowerCase()}/${item.toLowerCase()}`}
                     className="py-1 text-sm leading-none hover:underline"
-                    exact>
+                    >
                     {item}
                   </NavLink>
                 ))}
@@ -50,7 +59,7 @@ function Footer({ SearchText }) {
                     key={i}
                     to={`/${category.title.toLowerCase()}/${item.toLowerCase()}`}
                     className="py-1 text-sm leading-none hover:underline"
-                    exact>
+                    >
                     {item}
                   </NavLink>
                 ))}

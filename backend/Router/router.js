@@ -8,7 +8,7 @@ const newsController = require("../Controller/newsController");
 route.post("/api/register", controller.register);
 route.post("/api/login", controller.login);
 route.get("/api/isAuth", controller.isAuth);
-
+route.get("/mainSearch", controller.mainSearch);
 // ..............News Route...........
 const { connectDB } = require("../Database/connection");
 route.get("/api/types", newsController.getNewsType);
